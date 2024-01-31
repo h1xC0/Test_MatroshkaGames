@@ -1,5 +1,4 @@
 using UnityEngine;
-using JetBrains.Annotations;
 using UnityEngine.EventSystems;
 
 namespace CookingPrototype.Kitchen {
@@ -9,7 +8,7 @@ namespace CookingPrototype.Kitchen {
 		FoodPlace _place = null;
 
 		private float _lastClick;
-		private float _interval = 0.5f;
+		private float _interval = 1f;
 		
 		void Start() {
 			_place = GetComponent<FoodPlace>();
@@ -18,7 +17,10 @@ namespace CookingPrototype.Kitchen {
 		/// <summary>
 		/// Освобождает место по двойному тапу если еда на этом месте сгоревшая.
 		/// </summary>
-		private void TryTrashFood() {
+		private void TryTrashFood()
+		{
+			if(_place.IsFree) return;
+			
 			if (_place.CurFood.CurStatus == Food.FoodStatus.Overcooked)
 			{
 				_place.FreePlace();

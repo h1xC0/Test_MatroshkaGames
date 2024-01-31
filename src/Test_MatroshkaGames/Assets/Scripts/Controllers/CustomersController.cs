@@ -17,7 +17,7 @@ namespace CookingPrototype.Controllers {
 		public float               CustomerWaitTime      = 18f;
 		public float               CustomerSpawnTime     = 3f;
 		public List<CustomerPlace> CustomerPlaces        = null;
-
+		
 		[HideInInspector]
 		public int TotalCustomersGenerated { get; private set; } = 0;
 
@@ -137,9 +137,38 @@ namespace CookingPrototype.Controllers {
 		///  Если у посетителя это последний оставшийся заказ из списка, то отпускаем его.
 		/// </summary>
 		/// <param name="order">Заказ, который пытаемся отдать</param>
+		/// <param name="customer">Покупатель, который получает заказ</param>
 		/// <returns>Флаг - результат, удалось ли успешно отдать заказ</returns>
-		public bool ServeOrder(Order order) {
-			throw  new NotImplementedException("ServeOrder: this feature is not implemented.");
+		public bool ServeOrder(Customer customer, Order order)
+		{
+			if (customer == null || order == null) return false;
+			
+			foreach (var orderPlace in customer.OrderPlaces)
+			{
+				if(orderPlace.CurOrder == null) continue;
+
+				if (orderPlace.CurOrder.Name != order.Name) continue;
+				
+				customer.ServeOrder(order);
+				if (CheckCustomerActiveOrders(customer.OrderPlaces) == false)
+				{
+					FreeCustomer(customer);
+				}
+				return true;
+			}
+
+			return false;
+		}
+
+		private bool CheckCustomerActiveOrders(List<CustomerOrderPlace> orderPlaces)
+		{
+			foreach (var orderPlace in orderPlaces)
+			{
+				if (orderPlace.IsActive)
+					return true;
+			}
+
+			return false;
 		}
 	}
 }

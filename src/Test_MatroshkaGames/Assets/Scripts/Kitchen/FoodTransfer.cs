@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using JetBrains.Annotations;
+using UnityEngine.EventSystems;
 
 namespace CookingPrototype.Kitchen {
 	[RequireComponent(typeof(FoodPlace))]
-	public sealed class FoodTransfer : MonoBehaviour {
+	public sealed class FoodTransfer : MonoBehaviour, IPointerClickHandler {
 		public bool                    OnlyTransferCooked = true;
 		public List<AbstractFoodPlace> DestPlaces         = new List<AbstractFoodPlace>();
 
@@ -16,8 +17,7 @@ namespace CookingPrototype.Kitchen {
 			_place = GetComponent<FoodPlace>();
 		}
 
-		[UsedImplicitly]
-		public void TryTransferFood() {
+		private void TryTransferFood() {
 			var food = _place.CurFood;
 
 			if ( food == null ) {
@@ -35,6 +35,13 @@ namespace CookingPrototype.Kitchen {
 				_place.FreePlace();
 				return;
 			}
+		}
+
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			Debug.Log("Transfer Click");
+
+			TryTransferFood();
 		}
 	}
 }

@@ -72,8 +72,8 @@ namespace CookingPrototype.Controllers {
 		}
 
 		[UsedImplicitly]
-		public bool TryServeOrder(Order order) {
-			if ( !CustomersController.Instance.ServeOrder(order) ) {
+		public bool TryServeOrder(Customer customer, Order order) {
+			if (!CustomersController.Instance.ServeOrder(customer, order) ) {
 				return false;
 			}
 

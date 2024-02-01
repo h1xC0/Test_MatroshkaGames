@@ -73,6 +73,26 @@ namespace CookingPrototype.Controllers {
 			_timer = 0f;
 		}
 
+		public Customer FindCustomer(Order order)
+		{
+			foreach (var customerPlace in CustomerPlaces)
+			{
+				if(customerPlace.CurCustomer == null) continue;
+				
+				foreach (var orderPlace in customerPlace.CurCustomer.OrderPlaces)
+				{
+					if(orderPlace.CurOrder == null) continue;
+					
+					if (orderPlace.CurOrder.Name == order.Name)
+					{
+						return customerPlace.CurCustomer;
+					}
+				}
+			}
+
+			return null;
+		}
+
 		void SpawnCustomer() {
 			var freePlaces = CustomerPlaces.FindAll(x => x.IsFree);
 			if ( freePlaces.Count <= 0 ) {

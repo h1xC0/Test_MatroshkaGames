@@ -19,6 +19,13 @@ namespace CookingPrototype.UI
             _playButton.onClick.AddListener(HideMenu);
         }
 
+        public void Show()
+        {
+            _startGame = false;
+            _canvasGroup.alpha = 1;
+            gameObject.SetActive(true);
+        }
+
         public void SetFoodCount(int orderTarget)
         {
             _foodCountTMP.text = orderTarget.ToString();

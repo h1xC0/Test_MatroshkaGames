@@ -9,8 +9,9 @@ using Random = UnityEngine.Random;
 using CookingPrototype.Kitchen;
 
 namespace CookingPrototype.Controllers {
-	public class CustomersController : MonoBehaviour {
-
+	public class CustomersController : MonoBehaviour
+	{
+		private bool _initialized;
 		public static CustomersController Instance { get; private set; }
 
 		public int                 CustomersTargetNumber = 15;
@@ -43,6 +44,8 @@ namespace CookingPrototype.Controllers {
 				Debug.LogError("Another instance of CustomersController already exists!");
 			}
 			Instance = this;
+			
+			Init();
 		}
 
 		void OnDestroy() {
@@ -51,11 +54,11 @@ namespace CookingPrototype.Controllers {
 			}
 		}
 
-		void Start() {
-			Init();
-		}
-
-		void Update() {
+		void Update()
+		{
+			if (!_initialized)
+				return;
+			
 			if ( !HasFreePlaces ) {
 				return;
 			}
@@ -97,7 +100,7 @@ namespace CookingPrototype.Controllers {
 			return oc.Orders[Random.Range(0, oc.Orders.Count)];
 		}
 
-		public void Init() {
+		private void Init() {
 			var totalOrders = 0;
 			_orderSets = new Stack<List<Order>>();
 			for ( var i = 0; i < CustomersTargetNumber; i++ ) {
@@ -116,6 +119,11 @@ namespace CookingPrototype.Controllers {
 			TotalCustomersGeneratedChanged?.Invoke();
 			 
 			GameplayController.Instance.OrdersTarget = totalOrders - 2;
+		}
+
+		public void Initialize()
+		{
+			_initialized = true;
 		}
 
 		/// <summary>

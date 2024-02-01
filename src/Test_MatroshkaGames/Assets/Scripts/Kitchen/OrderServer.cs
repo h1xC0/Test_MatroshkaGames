@@ -54,7 +54,6 @@ namespace CookingPrototype.Kitchen {
 			foreach (var raycastResult in results)
 			{
 				_customer = raycastResult.gameObject.GetComponentInParent<Customer>();
-				Debug.Log($"Result: {raycastResult.gameObject.name}");
 
 				if (_customer == null)
 				{

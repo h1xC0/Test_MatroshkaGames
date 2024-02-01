@@ -63,7 +63,6 @@ namespace CookingPrototype.Kitchen {
 			{
 				_presenter.transform.position = _initialPosition;
 				_customer = raycastResult.gameObject.GetComponentInParent<Customer>();
-				Debug.Log($"Result: {raycastResult.gameObject.name}");
 
 				if (_customer == null)
 				{

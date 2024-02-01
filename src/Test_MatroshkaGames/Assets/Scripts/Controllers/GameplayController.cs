@@ -14,7 +14,8 @@ namespace CookingPrototype.Controllers {
 		public GameObject TapBlock   = null;
 		public WinWindow  WinWindow  = null;
 		public LoseWindow LoseWindow = null;
-
+		
+		[SerializeField] private MenuWindow _menuWindow;
 
 		int _ordersTarget = 0;
 
@@ -35,6 +36,11 @@ namespace CookingPrototype.Controllers {
 				Debug.LogError("Another instance of GameplayController already exists");
 			}
 			Instance = this;
+		}
+
+		private void Start()
+		{
+			_menuWindow.SetFoodCount(_ordersTarget);
 		}
 
 		void OnDestroy() {
@@ -85,12 +91,17 @@ namespace CookingPrototype.Controllers {
 
 		public void Restart() {
 			Init();
-			CustomersController.Instance.Init();
+			CustomersController.Instance.Initialize();
 			HideWindows();
 
 			foreach ( var place in FindObjectsOfType<AbstractFoodPlace>() ) {
 				place.FreePlace();
 			}
+		}
+
+		public void StartGame()
+		{
+			CustomersController.Instance.Initialize();
 		}
 
 		public void CloseGame() {

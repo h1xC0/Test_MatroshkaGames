@@ -30,6 +30,7 @@ namespace CookingPrototype.UI {
 
 			GoalText.text      = $"{gc.TotalOrdersServed}/{gc.OrdersTarget}";
 			GoalBar.fillAmount = Mathf.Clamp01((float) gc.TotalOrdersServed / gc.OrdersTarget);
+			CustomersController.Instance.SetInitialize(false);
 
 			gameObject.SetActive(true);
 		}

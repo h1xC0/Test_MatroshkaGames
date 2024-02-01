@@ -75,6 +75,7 @@ namespace CookingPrototype.Controllers {
 			TapBlock?.SetActive(false);
 			WinWindow?.Hide();
 			LoseWindow?.Hide();
+			_menuWindow?.Show();
 		}
 
 		[UsedImplicitly]
@@ -91,7 +92,7 @@ namespace CookingPrototype.Controllers {
 
 		public void Restart() {
 			Init();
-			CustomersController.Instance.Initialize();
+			_menuWindow.SetFoodCount(_ordersTarget);
 			HideWindows();
 
 			foreach ( var place in FindObjectsOfType<AbstractFoodPlace>() ) {
@@ -101,7 +102,8 @@ namespace CookingPrototype.Controllers {
 
 		public void StartGame()
 		{
-			CustomersController.Instance.Initialize();
+			CustomersController.Instance.SetInitialize(true);
+			CustomersController.Instance.Init();
 		}
 
 		public void CloseGame() {

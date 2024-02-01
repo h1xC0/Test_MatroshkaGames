@@ -73,6 +73,26 @@ namespace CookingPrototype.Controllers {
 			_timer = 0f;
 		}
 
+		public Customer FindCustomer(Order order)
+		{
+			foreach (var customerPlace in CustomerPlaces)
+			{
+				if(customerPlace.CurCustomer == null) continue;
+				
+				foreach (var orderPlace in customerPlace.CurCustomer.OrderPlaces)
+				{
+					if(orderPlace.CurOrder == null) continue;
+					
+					if (orderPlace.CurOrder.Name == order.Name)
+					{
+						return customerPlace.CurCustomer;
+					}
+				}
+			}
+
+			return null;
+		}
+
 		void SpawnCustomer() {
 			var freePlaces = CustomerPlaces.FindAll(x => x.IsFree);
 			if ( freePlaces.Count <= 0 ) {
@@ -100,7 +120,7 @@ namespace CookingPrototype.Controllers {
 			return oc.Orders[Random.Range(0, oc.Orders.Count)];
 		}
 
-		private void Init() {
+		public void Init() {
 			var totalOrders = 0;
 			_orderSets = new Stack<List<Order>>();
 			for ( var i = 0; i < CustomersTargetNumber; i++ ) {
@@ -121,9 +141,9 @@ namespace CookingPrototype.Controllers {
 			GameplayController.Instance.OrdersTarget = totalOrders - 2;
 		}
 
-		public void Initialize()
+		public void SetInitialize(bool flag)
 		{
-			_initialized = true;
+			_initialized = flag;
 		}
 
 		/// <summary>
